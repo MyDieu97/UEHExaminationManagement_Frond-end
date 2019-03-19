@@ -21,7 +21,7 @@ import { GiangVienComponent } from './pages/giang-vien/giang-vien.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ModalModule,
+    ModalModule.forRoot(),
     HttpClientModule,
     NgbModule,
     DataTablesModule
