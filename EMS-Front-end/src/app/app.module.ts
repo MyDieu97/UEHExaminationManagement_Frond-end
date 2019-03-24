@@ -10,12 +10,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
 import { GiangVienComponent } from './pages/giang-vien/giang-vien.component';
+import { LichThiComponent } from './pages/lich-thi/lich-thi.component';
+import { HocPhanComponent } from './pages/hoc-phan/hoc-phan.component';
+import { LopHocPhanComponent } from './pages/lop-hoc-phan/lop-hoc-phan.component';
+import { LopSinhVienComponent } from './pages/lop-sinh-vien/lop-sinh-vien.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
-    GiangVienComponent
+    GiangVienComponent,
+    LichThiComponent,
+    HocPhanComponent,
+    LopHocPhanComponent,
+    LopSinhVienComponent
   ],
   imports: [
     BrowserModule,

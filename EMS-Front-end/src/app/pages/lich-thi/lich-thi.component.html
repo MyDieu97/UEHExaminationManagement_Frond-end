@@ -1,0 +1,246 @@
+<div class="box">
+  <div class="box-header with-border">
+      <h3 class="box-title">Lịch Thi</h3>
+      <button type="button" class="btn btn-success pull-right" (click)="showFileModal(importFileForm)"><i class="fa fa-plus"></i> <span></span></button>      
+  </div>
+  <div class="box-body">
+        <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+            <thead>
+                <tr>
+                    <th><p>#</p></th>
+                    <th><p>Mã HP</p></th>
+                    <th><p>Lớp HP</p></th>
+                    <th><p>Tên HP</p></th>
+                    <th><p>Số TC</p></th>
+                    <th><p>Bậc ĐT</p></th>
+                    <th><p>Ngành học</p></th>
+                    <th><p>Hệ ĐT</p></th>
+                    <th><p>Khóa học</p></th>
+                    <th><p>Lớp SV</p></th>
+                    <th><p>SV thi</p></th>
+                    <th><p>Giờ BĐ</p></th>
+                    <th><p>Thứ</p></th>
+                    <th><p>Ngày thi</p></th>
+                    <th><p>CS Thi</p></th>
+                    <th><p>Phòng thi</p></th>
+                    <th class="">        
+                    </th>                    
+                </tr>
+          </thead>
+          
+          <tbody>
+            <tr *ngFor="let l of lichthis; let i=index">
+                <td>{{ i+1 }}</td>
+                <td>{{ l.maHP }}</td>
+                <td>{{ l.maLopHP }} {{ l.tenGV }}</td>
+                <td>{{ l.tenHP }}</td>
+                <td>{{ l.soTinChi }}</td>
+                <td>{{ l.bacDaoTao }}</td>
+                <td>{{ l.nganhHoc }}</td>
+                <td>{{ l.heDaoTao }}</td>
+                <td>{{ l.khoa }}</td>
+                <td>{{ l.maLopSV }}</td>
+                <td>{{ l.soSV }}</td>
+                <td>{{ l.soSV }}</td>
+                <td>{{ l.thu }}</td>
+                <td>{{ l.ngaygioBDThi | date : 'dd-MM-yyyy'}}</td>
+                <td>{{ l.csThi }}</td>
+                <td>{{ l.phongThi }}</td>
+                <td>                    
+                    <a href="#" (click)="showModal(lichthiForm, $event, l.id)"><i class="fa fa-edit text-primary"></i></a>
+                    <a href="#" (click)="showDeleteModal($event, l.id)"><i class="fa fa-remove text-danger"></i></a>
+                </td>
+            </tr>             
+          </tbody>                   
+      </table>      
+    </div>
+</div>
+
+<div bsModal #importFileModal="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="importFileModal.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title pull-left">Nhập file</h4>          
+        </div>
+        <div class="modal-body">
+            <form #importFileForm="ngForm">
+                <div class="box-body">                            
+                    <div class="row form-group">
+                        <div class="col-md-3">
+                            <label for="">Excel file</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="file" class="form-control" id="excelFile" placeholder="Browser" (change)="handleFileInput($event.target.files)">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light btn-cancel" (click)="importFileModal.hide()">Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="importFile()">Import</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #modal="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                        <button type="button" class="close pull-right" aria-label="Close" (click)="modal.hide()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>                
+                    <h4 class="modal-title"></h4>                
+                </div>
+                <div class="modal-body">
+                    <form #lichthiForm="ngForm">
+                        <div class="box-body">
+                            <input id="id" hidden name="id" [(ngModel)]="lichthi.id"/>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                  
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="txtIdentityNumber" class="col-sm-2 col-md-3 col control-p">Mã HP</label>
+                    
+                                            <div class="col-sm-10 col-md-9">
+                                                <input required type="text" class="form-control" id="txtIdentityNumber" placeholder="" [(ngModel)]="lichthi.maGV" name="maGV">
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="txtLastName" class="col-sm-2 col-md-3 col control-p">Họ</label>
+                    
+                                            <div class="col-sm-10 col-md-9">
+                                                <input required type="text" class="form-control" id="txtLastName" placeholder="" [(ngModel)]="lichthi.hoGV" name="hoGV">
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="txtFirstName" class="col-sm-2 col-md-3 col control-p">Tên</label>
+                    
+                                            <div class="col-sm-10 col-md-9">
+                                                <input required type="text" class="form-control" id="txtFirstName" placeholder="" [(ngModel)]="lichthi.tenGV" name="tenGV">
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="gender" class="col-sm-2 col-md-3 col control-p">Giới tính</label>
+                    
+                                            <div class="col-sm-10 col-md-9">
+                                                <input type="radio" name="gender" [value]="false" [(ngModel)]="lichthi.gioiTinh"> Nam
+                                                <input type="radio" name="gender" [value]="true" [(ngModel)]="lichthi.gioiTinh"> Nữ
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="datepicker" class="col-sm-2 col-md-3 control-p">Ngày sinh</label>
+                    
+                                            <div class="col-sm-10 col-md-9">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input required type="date" class="form-control pull-left" id="dtpDateofBirth" style="width:242px" [(ngModel)]="lichthi.ngaySinh" name="ngaySinh">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">                                    
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="cbtnRetired" class="col-sm-2 col-md-3 control-p">Hưu Trí</label>
+                                            <div class="col-sm-10 col-md-9">
+                                                <input type="checkbox" id="cbtnRetired" value="true" [(ngModel)]="lichthi.huuTri" name="huuTri" ng-check="lichthi.huuTri"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                        
+                                </div>
+    
+                                <div class="col-sm-12 col-md-6">            
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="txtEmail" class="col-sm-2 col-md-3 control-p">Email</label>
+                    
+                                            <div class="col-sm-10 col-md-9">
+                                                <input required type="email" class="form-control" id="txtEmail" placeholder="" [(ngModel)]="lichthi.email" name="email">
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="txtPhone" class="col-sm-2 col-md-3 control-p">Số điện thoại</label>
+                    
+                                            <div class="col-sm-10 col-md-9">
+                                                <input required type="text" class="form-control" id="txtPhone" placeholder="" [(ngModel)]="lichthi.soDT" name="soDT">
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="drdownDepartment" class="col-sm-2 col-md-3 control-p">Đơn vị</label>
+                    
+                                            <div class="col-sm-10 col-md-9">
+                                                <select required class="form-control" id="drdownDepartment" [(ngModel)]="lichthi.donviid" name="donviid">
+                                                    <option *ngFor="let option of donvis" [ngValue]="option.id">{{option.tenDonVi}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 col-md-12">
+                                            <label for="txtNote" class="col-sm-2 col-md-3 control-p">Ghi chú</label>
+                    
+                                            <div class="col-sm-10 col-md-9">
+                                                <textarea rows="4" class="form-control" id="txtNote" placeholder="" [(ngModel)]="lichthi.ghiChu" name="ghiChu"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">                
+                    <button type="submit" class="btn btn-success" id="btnSave" (click)="save()" [disabled]="!lichthiForm.form.valid">{{ (lichthi.id === undefined || lichthi.id === 0) ? 'Add':'Save'}}</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<div bsModal #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="deleteModal.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title pull-left">Confirm</h4>          
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light btn-cancel" (click)="deleteModal.hide()">Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="delete()">Delete</button>
+        </div>
+        </div>
+    </div>
+</div>

@@ -11,10 +11,10 @@ export class ApiService {
   apiUrl = {
     giangvien: this.baseUrl + 'giangviens',
     donvi: this.baseUrl + 'donvis',
-    companies: this.baseUrl + 'companies',
-    degree: this.baseUrl + 'degrees',
-    examinationsubject: this.baseUrl + 'examinationsubjects',
-    entrancetest: this.baseUrl + 'entrancetests',
+    lichthi: this.baseUrl + 'lichthis',
+    hocphan: this.baseUrl + 'hocphans',
+    lophocphan: this.baseUrl + 'lophocphans',
+    lopsinhvien: this.baseUrl + 'lopsinhviens',
     classroom: this.baseUrl + 'classroom',
     course: this.baseUrl + 'courses',
     learnresult: this.baseUrl + 'LearnResult'
