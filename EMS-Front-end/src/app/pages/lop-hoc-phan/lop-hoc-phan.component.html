@@ -13,15 +13,21 @@
             <thead>
                 <tr>
                     <th><p>STT</p></th>
-                    <th><p>Mã GV</p></th>
-                    <th><p>Họ tên</p></th>
-                    <th><p>Giới tính</p></th>
-                    <th><p>Ngày sinh</p></th>
-                    <th><p>Đơn vị</p></th>
-                    <th><p>Email</p></th>
-                    <th><p>Số điện thoại</p></th>
-                    <th><p>Hưu trí</p></th>
-                    <th><p>Ghi chú</p></th>
+                    <th><p>Mã lớp HP</p></th>
+                    <th><p>Mã HP</p></th>
+                    <th><p>Tên HP</p></th>
+                    <th><p>Số TC</p></th>
+                    <th><p>Bậc đào tạo</p></th>
+                    <th><p>Hệ đào tạo</p></th>
+                    <th><p>Lớp SV</p></th>
+                    <th><p>Ngành học</p></th>
+                    <th><p>Khóa</p></th>
+                    <th><p>Thời khóa biểu</p></th>
+                    <th><p>Ngày thi</p></th>
+                    <th><p>Giờ thi</p></th>
+                    <th><p>Thứ</p></th>
+                    <th><p>CS Thi</p></th>
+                    <th><p>Hình thức thi</p></th>
                     <th class="">        
                     </th>                    
                 </tr>
@@ -30,15 +36,22 @@
           <tbody>
             <tr *ngFor="let l of lophocphans; let i=index">
                 <td>{{ i+1 }}</td>
-                <td>{{ l.maGV }}</td>
-                <td>{{ l.hoGV }} {{ l.tenGV }}</td>
-                <td>{{ l.gioiTinh == false ? "Nam" : "Nữ" }}</td>
-                <td>{{ l.ngaySinh | date : 'dd-MM-yyyy'}}</td>
-                <td>{{ l.donViTrucThuoc.tenDonVi }}</td>
-                <td>{{ l.email }}</td>
-                <td>{{ l.soDT }}</td>
-                <td><input readonly type="checkbox" value={{l.huuTri}} ng-check="l.huuTri"/></td>
-                <td>{{ l.ghiChu }}</td>
+                <td>{{ l.maLopHP }}</td>
+                <td>{{ l.maHP }}</td>
+                <td>{{ l.tenHP }}</td>
+                <td>{{ l.soTinChi }}</td>
+                <td>{{ l.bacDaoTao }}</td>
+                <td>{{ l.heDaoTao }}</td>
+                <td>{{ l.lopSV }}</td>
+                <td>{{ l.nganhHoc }}</td>
+                <td>{{ l.khoa }}</td>
+                <td>{{ l.thoiKB }}</td>
+                <td>{{ l.ngayGioBDThi | date : 'dd-MM-yyyy' }}</td>
+                <td>{{ l.ngayGioBDThi | date : 'HH:mm' }}</td>
+                <td>{{ l.thu }}</td>
+                <td>{{ l.csThi }}</td>
+                <td>{{ l.hinhThucThi }}</td>
+                
                 <td>                    
                     <a href="#" (click)="showModal(lophocphanForm, $event, l.id)"><i class="fa fa-edit text-primary"></i></a>
                     <a href="#" (click)="showDeleteModal($event, l.id)"><i class="fa fa-remove text-danger"></i></a>

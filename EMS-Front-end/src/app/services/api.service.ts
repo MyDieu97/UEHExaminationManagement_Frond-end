@@ -15,8 +15,5 @@ export class ApiService {
     hocphan: this.baseUrl + 'hocphans',
     lophocphan: this.baseUrl + 'lophocphans',
     lopsinhvien: this.baseUrl + 'lopsinhviens',
-    classroom: this.baseUrl + 'classroom',
-    course: this.baseUrl + 'courses',
-    learnresult: this.baseUrl + 'LearnResult'
   }
 }

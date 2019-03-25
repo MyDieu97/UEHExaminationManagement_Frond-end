@@ -1,24 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LopHocPhanInfo, LopHocPhan, LopHocPhanService } from 'src/app/services/lop-hoc-phan/lop-hoc-phan.service';
+import { DonVi, DonViService } from 'src/app/services/don-vi/don-vi.service';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { ModalDirective } from 'ngx-bootstrap';
 import { debounceTime } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
-import { LopSinhVien, LopSinhVienService } from 'src/app/services/lop-sinh-vien/lop-sinh-vien.service';
-import { HocPhanService, HocPhanInfo } from 'src/app/services/hoc-phan/hoc-phan.service';
 
 @Component({
-  selector: 'app-hoc-phan',
-  templateUrl: './hoc-phan.component.html',
-  styleUrls: ['./hoc-phan.component.css']
+  selector: 'app-don-vi',
+  templateUrl: './don-vi.component.html',
+  styleUrls: ['./don-vi.component.css']
 })
-export class HocPhanComponent implements OnInit {
-
-  hocphans: HocPhanInfo[] = [];
-  lopsinhvien: LopSinhVien = {} as LopSinhVien;
-  lophocphans: LopHocPhanInfo[] = [];
-  lophocphan: LopHocPhan = {} as LopHocPhan;
+export class DonViComponent implements OnInit {
+  
+  donvis: DonVi[] = [];
+  donvi: DonVi = {} as DonVi;
 
   private alert = new Subject<string>();
   successMessage: string;
@@ -30,7 +26,7 @@ export class HocPhanComponent implements OnInit {
   @ViewChild('modal') modal: ModalDirective;
   @ViewChild('deleteModal') deleteModal: ModalDirective;
 
-  constructor(public lophocphanService: LopHocPhanService, public hocphanService: HocPhanService, public lopsinhvienService: LopSinhVienService) { }
+  constructor(public donviService: DonViService) { }
 
   ngOnInit() {
 
@@ -43,10 +39,6 @@ export class HocPhanComponent implements OnInit {
       pagingType: 'full_numbers',
       pageLength: 10
     };
-    
-    this.hocphanService.getHocPhans().subscribe(result => {
-      this.hocphans = result.data;
-    });
     
     this.loadData();
   }
@@ -64,39 +56,38 @@ export class HocPhanComponent implements OnInit {
     form.reset();
 
     if (id > 0) {
-      this.lophocphanService.getLopHocPhan(id).subscribe(result => {
-        this.lophocphan = result.data;        
+      this.donviService.getDonVi(id).subscribe(result => {
+        this.donvi = result.data;        
         this.modal.show();
       });
     } else {
-      this.lophocphan = {} as LopHocPhan;
+      this.donvi = {} as DonVi;
       this.modal.show();
     }
   }
 
   showDeleteModal(event, id) {
-    this.lophocphan.id = id;
+    this.donvi.id = id;
     event.preventDefault();
     this.deleteModal.show();
   }
 
   loadData() {
-    this.lophocphanService.getLopHocPhans().subscribe(result => {
-      this.lophocphans = result.data;
-      console.log(this.lophocphans);
+    this.donviService.getDonVis().subscribe(result => {
+      this.donvis = result.data;
       this.rerender();
     });
   }
 
   save() {
-    if (this.lophocphan.id === undefined || this.lophocphan.id === 0) {
-      this.lophocphanService.addLopHocPhan(this.lophocphan).subscribe(aresult => {
+    if (this.donvi.id === undefined || this.donvi.id === 0) {
+      this.donviService.addDonVi(this.donvi).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
         this.alertMessage(aresult.message);
       });
     } else {
-      this.lophocphanService.updateLopHocPhan(this.lophocphan).subscribe(aresult => {
+      this.donviService.updateDonVi(this.donvi).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
         this.alertMessage(aresult.message);
@@ -105,12 +96,12 @@ export class HocPhanComponent implements OnInit {
   }
 
   delete() {
-    this.lophocphanService.deleteLopHocPhan(this.lophocphan.id).subscribe(result => {
+    this.donviService.deleteDonVi(this.donvi.id).subscribe(result => {
       if (result.errorCode === 0) {
-        const deleteLopHocPhan = this.lophocphans.find( x => x.id === this.lophocphan.id);
-        if (deleteLopHocPhan) {
-          const index = this.lophocphans.indexOf(deleteLopHocPhan);
-          this.lophocphans.splice(index, 1);
+        const deleteDonVi = this.donvis.find( x => x.id === this.donvi.id);
+        if (deleteDonVi) {
+          const index = this.donvis.indexOf(deleteDonVi);
+          this.donvis.splice(index, 1);
         }
         this.deleteModal.hide();
         this.alertMessage(result.message);
@@ -131,4 +122,5 @@ export class HocPhanComponent implements OnInit {
   alertMessage(message) {
     this.alert.next(message);
   }
+
 }

@@ -8,6 +8,7 @@ export interface LopSinhViensResponse {
   data: LopSinhVien[];
   message: string;
 }
+
 export interface LopSinhVienResponse {
   errorCode: number;
   data: LopSinhVien;
@@ -16,7 +17,7 @@ export interface LopSinhVienResponse {
 
 export interface LopSinhVien {
   id: number;  
-  lopSV: string;
+  maLop: string;
   nganhHoc: string;
   khoa: string;
 }
@@ -34,8 +35,8 @@ export class LopSinhVienService {
 
   constructor(private http: HttpClient, private apiService: ApiService) { }
 
-  getLopSinhViens(): Observable<LopSinhVienResponse> {
-    return this.http.get<LopSinhVienResponse>(this.apiService.apiUrl.lopsinhvien);
+  getLopSinhViens(): Observable<LopSinhViensResponse> {
+    return this.http.get<LopSinhViensResponse>(this.apiService.apiUrl.lopsinhvien);
   }
 
   getLopSinhVien(id): Observable<LopSinhVienResponse> {
@@ -43,8 +44,8 @@ export class LopSinhVienService {
     return this.http.get<LopSinhVienResponse>(url);
   }
 
-  addLopSinhVien(hocPhan: LopSinhVien): Observable<LopSinhVienResponse> {
-    return this.http.post<LopSinhVienResponse>(this.apiService.apiUrl.lopsinhvien, hocPhan);
+  addLopSinhVien(lopsinhvien: LopSinhVien): Observable<LopSinhVienResponse> {
+    return this.http.post<LopSinhVienResponse>(this.apiService.apiUrl.lopsinhvien, lopsinhvien);
   }
 
   updateLopSinhVien(lopsinhvien: LopSinhVien): Observable<LopSinhVienResponse> {

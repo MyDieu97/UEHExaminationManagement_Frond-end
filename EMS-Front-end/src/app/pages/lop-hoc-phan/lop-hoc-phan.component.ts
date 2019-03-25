@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DonVi, DonViService } from 'src/app/services/don-vi/don-vi.service';
+import { LopHocPhanInfo, LopHocPhan, LopHocPhanService } from 'src/app/services/lop-hoc-phan/lop-hoc-phan.service';
+import { Subject } from 'rxjs';
+import { DataTableDirective } from 'angular-datatables';
+import { ModalDirective } from 'ngx-bootstrap';
+import { DatetimeService } from 'src/app/services/datetime.service';
+import { debounceTime } from 'rxjs/operators';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-lop-hoc-phan',
@@ -8,8 +16,8 @@ import { Component, OnInit } from '@angular/core';
 export class LopHocPhanComponent implements OnInit {
 
   donvis: DonVi[] = [];
-  giangviens: GiangVienInfo[] = [];
-  giangvien: GiangVien = {} as GiangVien;
+  lopsinhviens: LopHocPhanInfo[] = [];
+  lopsinhvien: LopHocPhan = {} as LopHocPhan;
 
   private alert = new Subject<string>();
   successMessage: string;
@@ -22,7 +30,7 @@ export class LopHocPhanComponent implements OnInit {
   @ViewChild('deleteModal') deleteModal: ModalDirective;
 
 
-  constructor(public datetimeService: DatetimeService, public giangvienService: GiangVienService, public donviService: DonViService) { }
+  constructor(public datetimeService: DatetimeService, public lopsinhvienService: LopHocPhanService, public donviService: DonViService) { }
 
   ngOnInit() {
 
@@ -33,7 +41,9 @@ export class LopHocPhanComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
+      scrollX: true,
+      autoWidth: true
     };
     
     this.donviService.getDonVis().subscribe(result => {
@@ -57,40 +67,40 @@ export class LopHocPhanComponent implements OnInit {
     form.reset();
 
     if (id > 0) {
-      this.giangvienService.getGiangVien(id).subscribe(result => {
-        this.giangvien = result.data;
-        this.giangvien.ngaySinh = this.datetimeService.formatDatetimeData(this.giangvien.ngaySinh);
+      this.lopsinhvienService.getLopHocPhan(id).subscribe(result => {
+        this.lopsinhvien = result.data;
+        this.lopsinhvien.ngaygioBDThi = this.datetimeService.formatDatetimeData(this.lopsinhvien.ngaygioBDThi);
         this.modal.show();
       });
     } else {
-      this.giangvien = {} as GiangVien;
+      this.lopsinhvien = {} as LopHocPhan;
       this.modal.show();
     }
   }
 
   showDeleteModal(event, id) {
-    this.giangvien.id = id;
+    this.lopsinhvien.id = id;
     event.preventDefault();
     this.deleteModal.show();
   }
 
   loadData() {
-    this.giangvienService.getGiangViens().subscribe(result => {
-      this.giangviens = result.data;
-      console.log(this.giangviens);
+    this.lopsinhvienService.getLopHocPhans().subscribe(result => {
+      this.lopsinhviens = result.data;
+      console.log(this.lopsinhviens);
       this.rerender();
     });
   }
 
   save() {
-    if (this.giangvien.id === undefined || this.giangvien.id === 0) {
-      this.giangvienService.addGiangVien(this.giangvien).subscribe(aresult => {
+    if (this.lopsinhvien.id === undefined || this.lopsinhvien.id === 0) {
+      this.lopsinhvienService.addLopHocPhan(this.lopsinhvien).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
         this.alertMessage(aresult.message);
       });
     } else {
-      this.giangvienService.updateGiangVien(this.giangvien).subscribe(aresult => {
+      this.lopsinhvienService.updateLopHocPhan(this.lopsinhvien).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
         this.alertMessage(aresult.message);
@@ -99,12 +109,12 @@ export class LopHocPhanComponent implements OnInit {
   }
 
   delete() {
-    this.giangvienService.deleteGiangVien(this.giangvien.id).subscribe(result => {
+    this.lopsinhvienService.deleteLopHocPhan(this.lopsinhvien.id).subscribe(result => {
       if (result.errorCode === 0) {
-        const deleteGiangVien = this.giangviens.find( x => x.id === this.giangvien.id);
-        if (deleteGiangVien) {
-          const index = this.giangviens.indexOf(deleteGiangVien);
-          this.giangviens.splice(index, 1);
+        const deleteLopHocPhan = this.lopsinhviens.find( x => x.id === this.lopsinhvien.id);
+        if (deleteLopHocPhan) {
+          const index = this.lopsinhviens.indexOf(deleteLopHocPhan);
+          this.lopsinhviens.splice(index, 1);
         }
         this.deleteModal.hide();
         this.alertMessage(result.message);

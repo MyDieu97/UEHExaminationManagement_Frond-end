@@ -19,9 +19,9 @@
                     <th><p>Khóa học</p></th>
                     <th><p>Lớp SV</p></th>
                     <th><p>SV thi</p></th>
-                    <th><p>Giờ BĐ</p></th>
-                    <th><p>Thứ</p></th>
                     <th><p>Ngày thi</p></th>
+                    <th><p>Giờ thi</p></th>
+                    <th><p>Thứ</p></th>
                     <th><p>CS Thi</p></th>
                     <th><p>Phòng thi</p></th>
                     <th class="">        
@@ -42,9 +42,9 @@
                 <td>{{ l.khoa }}</td>
                 <td>{{ l.maLopSV }}</td>
                 <td>{{ l.soSV }}</td>
-                <td>{{ l.soSV }}</td>
+                <td>{{ l.ngayGioBDThi | date : 'dd-MM-yyyy'}}</td>
+                <td>{{ l.ngayGioBDThi | date : 'HH:mm' }}</td>
                 <td>{{ l.thu }}</td>
-                <td>{{ l.ngaygioBDThi | date : 'dd-MM-yyyy'}}</td>
                 <td>{{ l.csThi }}</td>
                 <td>{{ l.phongThi }}</td>
                 <td>                    

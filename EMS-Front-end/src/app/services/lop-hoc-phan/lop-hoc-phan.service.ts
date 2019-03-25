@@ -27,16 +27,35 @@ export interface LopHocPhanInfo {
   ngaygioBDThi: Date;
   thu: string;
   csThi: string;
+  hinhThucThi: string;
   bacDaoTao: number;
   heDaoTao: string;  
   maHP: string;
   tenHP: string;
   soTinChi: number;
-  donViRaDe: string;
-  donviQuanLy: string;
   lopSV: string;
   nganhHoc: string;
+  khoa: string;
 }
+
+// export interface LopHocPhanInfo {
+//   id: number;
+//   maLopHP: string;
+//   thoiKB: string;
+//   ngaygioBDThi: Date;
+//   thu: string;
+//   csThi: string;
+//   bacDaoTao: number;
+//   heDaoTao: string;  
+//   maHP: string;
+//   tenHP: string;
+//   soTinChi: number;
+//   donViRaDe: string;
+//   donviQuanLy: string;
+//   lopSV: string;
+//   nganhHoc: string;
+//   khoa: string;
+// }
 
 export interface LopHocPhan {
   id: number;  

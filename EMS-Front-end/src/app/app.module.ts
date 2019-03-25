@@ -14,6 +14,7 @@ import { LichThiComponent } from './pages/lich-thi/lich-thi.component';
 import { HocPhanComponent } from './pages/hoc-phan/hoc-phan.component';
 import { LopHocPhanComponent } from './pages/lop-hoc-phan/lop-hoc-phan.component';
 import { LopSinhVienComponent } from './pages/lop-sinh-vien/lop-sinh-vien.component';
+import { DonViComponent } from './pages/don-vi/don-vi.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LopSinhVienComponent } from './pages/lop-sinh-vien/lop-sinh-vien.compon
     LichThiComponent,
     HocPhanComponent,
     LopHocPhanComponent,
-    LopSinhVienComponent
+    LopSinhVienComponent,
+    DonViComponent
   ],
   imports: [
     BrowserModule,
