@@ -26,7 +26,7 @@ export interface HocPhanInfo {
   tenHP: string;
   soTinChi: number;
   donViRaDe: string;
-  donviQuanLy: string;
+  donViQuanLy: string;
 }
 
 export interface HocPhan {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DonVi, DonViService } from 'src/app/services/don-vi/don-vi.service';
+import { HocPhanService, HocPhanInfo } from 'src/app/services/hoc-phan/hoc-phan.service';
 import { LopHocPhanInfo, LopHocPhan, LopHocPhanService } from 'src/app/services/lop-hoc-phan/lop-hoc-phan.service';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
@@ -7,6 +7,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { DatetimeService } from 'src/app/services/datetime.service';
 import { debounceTime } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
+import { LopSinhVienService, LopSinhVien } from 'src/app/services/lop-sinh-vien/lop-sinh-vien.service';
 
 @Component({
   selector: 'app-lop-hoc-phan',
@@ -15,9 +16,12 @@ import { NgForm } from '@angular/forms';
 })
 export class LopHocPhanComponent implements OnInit {
 
-  donvis: DonVi[] = [];
-  lopsinhviens: LopHocPhanInfo[] = [];
-  lopsinhvien: LopHocPhan = {} as LopHocPhan;
+  date: Date = {} as Date;
+  time: Date = {} as Date;
+  hocphans: HocPhanInfo[] = [];
+  lopsinhviens: LopSinhVien[] = [];
+  lophocphans: LopHocPhanInfo[] = [];
+  lophocphan: LopHocPhan = {} as LopHocPhan;
 
   private alert = new Subject<string>();
   successMessage: string;
@@ -30,7 +34,7 @@ export class LopHocPhanComponent implements OnInit {
   @ViewChild('deleteModal') deleteModal: ModalDirective;
 
 
-  constructor(public datetimeService: DatetimeService, public lopsinhvienService: LopHocPhanService, public donviService: DonViService) { }
+  constructor(public datetimeService: DatetimeService, public lophocphanService: LopHocPhanService, public hocphanService: HocPhanService, public lopsinhvienService: LopSinhVienService) { }
 
   ngOnInit() {
 
@@ -45,9 +49,14 @@ export class LopHocPhanComponent implements OnInit {
       scrollX: true,
       autoWidth: true
     };
+
+    this.lopsinhvienService.getLopSinhViens().subscribe(result => {
+      this.lopsinhviens = result.data;
+      console.log(result.data);
+    });
     
-    this.donviService.getDonVis().subscribe(result => {
-      this.donvis = result.data;
+    this.hocphanService.getHocPhans().subscribe(result => {
+      this.hocphans = result.data;
       console.log(result.data);
     });
     
@@ -67,40 +76,44 @@ export class LopHocPhanComponent implements OnInit {
     form.reset();
 
     if (id > 0) {
-      this.lopsinhvienService.getLopHocPhan(id).subscribe(result => {
-        this.lopsinhvien = result.data;
-        this.lopsinhvien.ngaygioBDThi = this.datetimeService.formatDatetimeData(this.lopsinhvien.ngaygioBDThi);
+      this.lophocphanService.getLopHocPhan(id).subscribe(result => {
+        this.lophocphan = result.data;
+        console.log(this.lophocphan);
+        this.date = this.datetimeService.FormatDateString(this.lophocphan.ngayGioBDThi);
+        this.time = this.datetimeService.FormatTimeString(this.lophocphan.ngayGioBDThi);
         this.modal.show();
       });
     } else {
-      this.lopsinhvien = {} as LopHocPhan;
+      this.lophocphan = {} as LopHocPhan;
       this.modal.show();
     }
   }
 
   showDeleteModal(event, id) {
-    this.lopsinhvien.id = id;
+    this.lophocphan.id = id;
     event.preventDefault();
     this.deleteModal.show();
   }
 
   loadData() {
-    this.lopsinhvienService.getLopHocPhans().subscribe(result => {
-      this.lopsinhviens = result.data;
-      console.log(this.lopsinhviens);
+    this.lophocphanService.getLopHocPhans().subscribe(result => {
+      this.lophocphans = result.data;
+      console.log(this.lophocphans);
       this.rerender();
     });
   }
 
   save() {
-    if (this.lopsinhvien.id === undefined || this.lopsinhvien.id === 0) {
-      this.lopsinhvienService.addLopHocPhan(this.lopsinhvien).subscribe(aresult => {
+    this.lophocphan.ngayGioBDThi = this.datetimeService.FormatDatetimeString(this.date, this.time);
+    this.lophocphan.thu = this.datetimeService.getDayofWeek(this.date);
+    if (this.lophocphan.id === undefined || this.lophocphan.id === 0) {
+      this.lophocphanService.addLopHocPhan(this.lophocphan).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
         this.alertMessage(aresult.message);
       });
     } else {
-      this.lopsinhvienService.updateLopHocPhan(this.lopsinhvien).subscribe(aresult => {
+      this.lophocphanService.updateLopHocPhan(this.lophocphan).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
         this.alertMessage(aresult.message);
@@ -109,12 +122,12 @@ export class LopHocPhanComponent implements OnInit {
   }
 
   delete() {
-    this.lopsinhvienService.deleteLopHocPhan(this.lopsinhvien.id).subscribe(result => {
+    this.lophocphanService.deleteLopHocPhan(this.lophocphan.id).subscribe(result => {
       if (result.errorCode === 0) {
-        const deleteLopHocPhan = this.lopsinhviens.find( x => x.id === this.lopsinhvien.id);
+        const deleteLopHocPhan = this.lophocphans.find( x => x.id === this.lophocphan.id);
         if (deleteLopHocPhan) {
-          const index = this.lopsinhviens.indexOf(deleteLopHocPhan);
-          this.lopsinhviens.splice(index, 1);
+          const index = this.lophocphans.indexOf(deleteLopHocPhan);
+          this.lophocphans.splice(index, 1);
         }
         this.deleteModal.hide();
         this.alertMessage(result.message);

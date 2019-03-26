@@ -31,7 +31,7 @@ export interface GiangVienInfo {
   email: string;
   huuTri: boolean;
   ghiChu: string;
-  donvitructhuoc: object;
+  donViTrucThuoc: object;
 }
 
 export interface GiangVien {

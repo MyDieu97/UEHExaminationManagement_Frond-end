@@ -80,99 +80,117 @@
                               
                                 <div class="row">
                                     <div class="form-group col-sm-12 col-md-12">
-                                        <label for="txtIdentityNumber" class="col-sm-2 col-md-3 col control-p">Mã GV</label>
+                                        <label for="txtMaLopHP" class="col-sm-2 col-md-3 col control-p">Mã Lớp HP</label>
                 
                                         <div class="col-sm-10 col-md-9">
-                                            <input required type="text" class="form-control" id="txtIdentityNumber" placeholder="" [(ngModel)]="lophocphan.maGV" name="maGV">
+                                            <input required type="text" class="form-control" id="txtMaLopHP" placeholder="" [(ngModel)]="lophocphan.maLopHP" name="maLopHP">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-group col-sm-12 col-md-12">
-                                        <label for="txtLastName" class="col-sm-2 col-md-3 col control-p">Họ</label>
+                                        <label for="drdownMaHP" class="col-sm-2 col-md-3 col control-p">Mã HP</label>
                 
                                         <div class="col-sm-10 col-md-9">
-                                            <input required type="text" class="form-control" id="txtLastName" placeholder="" [(ngModel)]="lophocphan.hoGV" name="hoGV">
+                                            <select required class="form-control" id="drdownMaHP" [(ngModel)]="lophocphan.hocPhanId" name="hocPhanId">
+                                                <option *ngFor="let option of hocphans" [ngValue]="option.id">{{option.maHP}}</option>
+                                            </select>                                            
                                         </div>
                                     </div>
                                 </div>
                     
                                 <div class="row">
                                     <div class="form-group col-sm-12 col-md-12">
-                                        <label for="txtFirstName" class="col-sm-2 col-md-3 col control-p">Tên</label>
+                                        <label for="drdownMaLopSV" class="col-sm-2 col-md-3 col control-p">Mã Lớp SV</label>
                 
                                         <div class="col-sm-10 col-md-9">
-                                            <input required type="text" class="form-control" id="txtFirstName" placeholder="" [(ngModel)]="lophocphan.tenGV" name="tenGV">
-                                        </div>
-                                    </div>
-                                </div>
-                    
-                                <div class="row">
-                                    <div class="form-group col-sm-12 col-md-12">
-                                        <label for="gender" class="col-sm-2 col-md-3 col control-p">Giới tính</label>
-                
-                                        <div class="col-sm-10 col-md-9">
-                                            <input type="radio" name="gender" [value]="false" [(ngModel)]="lophocphan.gioiTinh"> Nam
-                                            <input type="radio" name="gender" [value]="true" [(ngModel)]="lophocphan.gioiTinh"> Nữ
+                                            <select required class="form-control" id="drdownMaLopSV" [(ngModel)]="lophocphan.lopSVId" name="lopSVId">
+                                                <option *ngFor="let option of lopsinhviens" [ngValue]="option.id">{{option.maLop}}</option>
+                                            </select>                                           
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="form-group col-sm-12 col-md-12">
-                                        <label for="datepicker" class="col-sm-2 col-md-3 control-p">Ngày sinh</label>
+                                        <label for="drdownMaHP" class="col-sm-2 col-md-3 col control-p">Bậc đào tạo</label>
+                
+                                        <div class="col-sm-10 col-md-9">
+                                            <select required class="form-control" id="drdownMaHP" [(ngModel)]="lophocphan.bacDaoTao" name="bacDaoTao">
+                                                <option value="Đại học">Đại học</option>
+                                                <option value="Sau đại học">Sau đại học</option>
+                                            </select>                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-sm-12 col-md-12">
+                                        <label for="drdownMaHP" class="col-sm-2 col-md-3 col control-p">Hệ đào tạo</label>
+                
+                                        <div class="col-sm-10 col-md-9">
+                                            <select required class="form-control" id="drdownMaHP" [(ngModel)]="lophocphan.heDaoTao" name="heDaoTao">
+                                                <option value="Chính quy">Chính quy</option>
+                                                <option value="Vừa học vừa làm">Vừa học vừa làm</option>
+                                                <option value="Văn bằng 2">Văn bằng 2</option>
+                                            </select>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6">    
+                                <div class="row">
+                                    <div class="form-group col-sm-12 col-md-12">
+                                        <label for="txtTKB" class="col-sm-2 col-md-3 col control-p">Thời khóa biểu</label>
+                
+                                        <div class="col-sm-10 col-md-9">
+                                            <input required type="text" class="form-control" id="txtTKB" placeholder="" [(ngModel)]="lophocphan.thoiKB" name="thoiKB">
+                                        </div>
+                                    </div>
+                                </div>  
+
+                                <div class="row">
+                                    <div class="form-group col-sm-12 col-md-12">
+                                        <label for="dtpNgayThi" class="col-sm-2 col-md-3 control-p">Ngày thi</label>
                 
                                         <div class="col-sm-10 col-md-9">
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input required type="date" class="form-control pull-left" id="dtpDateofBirth" style="width:242px" [(ngModel)]="lophocphan.ngaySinh" name="ngaySinh">
+                                                <input required type="date" class="form-control pull-left" id="dtpNgayThi" style="width:242px" [(ngModel)]="date" name="date">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="row">                                    
-                                    <div class="form-group col-sm-12 col-md-12">
-                                        <label for="cbtnRetired" class="col-sm-2 col-md-3 control-p">Hưu Trí</label>
-                                        <div class="col-sm-10 col-md-9">
-                                            <input type="checkbox" id="cbtnRetired" value="true" [(ngModel)]="lophocphan.huuTri" name="huuTri" ng-check="lophocphan.huuTri"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                                    
-                            </div>
-
-                            <div class="col-sm-12 col-md-6">            
+                
                                 <div class="row">
                                     <div class="form-group col-sm-12 col-md-12">
-                                        <label for="txtEmail" class="col-sm-2 col-md-3 control-p">Email</label>
+                                        <label for="txtGioThi" class="col-sm-2 col-md-3 control-p">Giờ thi</label>
                 
                                         <div class="col-sm-10 col-md-9">
-                                            <input required type="email" class="form-control" id="txtEmail" placeholder="" [(ngModel)]="lophocphan.email" name="email">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input required type="time" class="form-control pull-left" id="txtGioThi" style="width:242px" [(ngModel)]="time" name="time" placeholder="HH:mm:ss" required >
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                 
                                 <div class="row">
                                     <div class="form-group col-sm-12 col-md-12">
-                                        <label for="txtPhone" class="col-sm-2 col-md-3 control-p">Số điện thoại</label>
+                                        <label for="drdownCSThi" class="col-sm-2 col-md-3 control-p">Cơ sở thi</label>
                 
                                         <div class="col-sm-10 col-md-9">
-                                            <input required type="text" class="form-control" id="txtPhone" placeholder="" [(ngModel)]="lophocphan.soDT" name="soDT">
-                                        </div>
-                                    </div>
-                                </div>
-                
-                                <div class="row">
-                                    <div class="form-group col-sm-12 col-md-12">
-                                        <label for="drdownDepartment" class="col-sm-2 col-md-3 control-p">Đơn vị</label>
-                
-                                        <div class="col-sm-10 col-md-9">
-                                            <select required class="form-control" id="drdownDepartment" [(ngModel)]="lophocphan.donviid" name="donviid">
-                                                <option *ngFor="let option of donvis" [ngValue]="option.id">{{option.tenDonVi}}</option>
+                                            <select required class="form-control" id="drdownCSThi" [(ngModel)]="lophocphan.csThi" name="csThi">
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="C">C</option>
                                             </select>
                                         </div>
                                     </div>
@@ -180,10 +198,10 @@
 
                                 <div class="row">
                                     <div class="form-group col-sm-12 col-md-12">
-                                        <label for="txtNote" class="col-sm-2 col-md-3 control-p">Ghi chú</label>
+                                        <label for="txtHinhThucThi" class="col-sm-2 col-md-3 control-p">Hình thức thi</label>
                 
                                         <div class="col-sm-10 col-md-9">
-                                            <textarea rows="4" class="form-control" id="txtNote" placeholder="" [(ngModel)]="lophocphan.ghiChu" name="ghiChu"></textarea>
+                                            <textarea rows="4" class="form-control" id="txtHinhThucThi" placeholder="" [(ngModel)]="lophocphan.hinhThucThi" name="hinhThucThi"></textarea>
                                         </div>
                                     </div>
                                 </div>

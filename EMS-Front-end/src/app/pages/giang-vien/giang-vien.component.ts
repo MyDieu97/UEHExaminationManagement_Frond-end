@@ -67,7 +67,7 @@ export class GiangVienComponent implements OnInit {
     if (id > 0) {
       this.giangvienService.getGiangVien(id).subscribe(result => {
         this.giangvien = result.data;
-        this.giangvien.ngaySinh = this.datetimeService.formatDatetimeData(this.giangvien.ngaySinh);
+        this.giangvien.ngaySinh = this.datetimeService.FormatDateString(this.giangvien.ngaySinh);
         this.modal.show();
       });
     } else {

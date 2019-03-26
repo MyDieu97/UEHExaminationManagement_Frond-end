@@ -61,10 +61,10 @@ export interface LopHocPhan {
   id: number;  
   maLopHP: string;
   thoiKB: string;
-  ngaygioBDThi: Date;
+  ngayGioBDThi: Date;
   thu: string;
   csThi: string;
-  bacDaoTao: number;
+  bacDaoTao: string;
   heDaoTao: string;  
   lopSVId: number;
   hocPhanId: number;
