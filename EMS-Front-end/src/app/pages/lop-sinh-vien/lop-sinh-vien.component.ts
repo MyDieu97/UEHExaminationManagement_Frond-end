@@ -19,6 +19,8 @@ export class LopSinhVienComponent implements OnInit {
   private alert = new Subject<string>();
   successMessage: string;
 
+  public loading = false;
+
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
@@ -50,6 +52,7 @@ export class LopSinhVienComponent implements OnInit {
   }
 
   showModal(form: NgForm, event = null, id: number = 0) {
+    this.loading = true;
     if (event) {
       event.preventDefault();
     }
@@ -59,44 +62,54 @@ export class LopSinhVienComponent implements OnInit {
       this.lopsinhvienService.getLopSinhVien(id).subscribe(result => {
         this.lopsinhvien = result.data;        
         this.modal.show();
+        this.loading = false;
       });
     } else {
       this.lopsinhvien = {} as LopSinhVien;
       this.modal.show();
+      this.loading = false;
     }
   }
 
   showDeleteModal(event, id) {
+    this.loading = true;
     this.lopsinhvien.id = id;
     event.preventDefault();
     this.deleteModal.show();
+    this.loading = false;
   }
 
   loadData() {
+    this.loading = true;
     this.lopsinhvienService.getLopSinhViens().subscribe(result => {
       this.lopsinhviens = result.data;
       console.log(this.lopsinhviens);
       this.rerender();
+      this.loading = false;
     });
   }
 
   save() {
+    this.loading = true;
     if (this.lopsinhvien.id === undefined || this.lopsinhvien.id === 0) {
       this.lopsinhvienService.addLopSinhVien(this.lopsinhvien).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
+        this.loading = false;
         this.alertMessage(aresult.message);
       });
     } else {
       this.lopsinhvienService.updateLopSinhVien(this.lopsinhvien).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
+        this.loading = false;
         this.alertMessage(aresult.message);
       });
     }
   }
 
   delete() {
+    this.loading = true;
     this.lopsinhvienService.deleteLopSinhVien(this.lopsinhvien.id).subscribe(result => {
       if (result.errorCode === 0) {
         const deleteLopSinhVien = this.lopsinhviens.find( x => x.id === this.lopsinhvien.id);
@@ -105,8 +118,11 @@ export class LopSinhVienComponent implements OnInit {
           this.lopsinhviens.splice(index, 1);
         }
         this.deleteModal.hide();
+        this.loading = false;
         this.alertMessage(result.message);
       }
+      this.loading = false;
+      this.alertMessage(result.message);
     });
   }
 

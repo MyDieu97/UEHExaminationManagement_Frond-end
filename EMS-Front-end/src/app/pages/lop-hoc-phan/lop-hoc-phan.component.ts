@@ -26,6 +26,8 @@ export class LopHocPhanComponent implements OnInit {
   private alert = new Subject<string>();
   successMessage: string;
 
+  public loading = false;
+
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
@@ -70,6 +72,7 @@ export class LopHocPhanComponent implements OnInit {
   }
 
   showModal(form: NgForm, event = null, id: number = 0) {
+    this.loading = true;
     if (event) {
       event.preventDefault();
     }
@@ -82,46 +85,56 @@ export class LopHocPhanComponent implements OnInit {
         this.date = this.datetimeService.FormatDateString(this.lophocphan.ngayGioBDThi);
         this.time = this.datetimeService.FormatTimeString(this.lophocphan.ngayGioBDThi);
         this.modal.show();
+        this.loading = false;
       });
     } else {
       this.lophocphan = {} as LopHocPhan;
       this.modal.show();
+      this.loading = false;
     }
   }
 
   showDeleteModal(event, id) {
+    this.loading = true;
     this.lophocphan.id = id;
     event.preventDefault();
     this.deleteModal.show();
+    this.loading = false;
   }
 
   loadData() {
+    this.loading = true;
     this.lophocphanService.getLopHocPhans().subscribe(result => {
       this.lophocphans = result.data;
       console.log(this.lophocphans);
       this.rerender();
+      this.loading = false;
     });
   }
 
   save() {
+    this.loading = true;
     this.lophocphan.ngayGioBDThi = this.datetimeService.FormatDatetimeString(this.date, this.time);
     this.lophocphan.thu = this.datetimeService.getDayofWeek(this.date);
     if (this.lophocphan.id === undefined || this.lophocphan.id === 0) {
       this.lophocphanService.addLopHocPhan(this.lophocphan).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
+        this.loading = false;
         this.alertMessage(aresult.message);
       });
     } else {
       this.lophocphanService.updateLopHocPhan(this.lophocphan).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
+        this.loading = false;
         this.alertMessage(aresult.message);
       });
     }
   }
 
   delete() {
+    this.loading = true;
     this.lophocphanService.deleteLopHocPhan(this.lophocphan.id).subscribe(result => {
       if (result.errorCode === 0) {
         const deleteLopHocPhan = this.lophocphans.find( x => x.id === this.lophocphan.id);
@@ -130,8 +143,11 @@ export class LopHocPhanComponent implements OnInit {
           this.lophocphans.splice(index, 1);
         }
         this.deleteModal.hide();
+        this.loading = false;
         this.alertMessage(result.message);
       }
+      this.loading = false;
+      this.alertMessage(result.message);
     });
   }
 

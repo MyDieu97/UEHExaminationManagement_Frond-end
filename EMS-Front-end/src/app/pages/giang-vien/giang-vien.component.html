@@ -1,7 +1,5 @@
-
-<script src="~/Content/admin-lte/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <!-- /.box -->
-
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
 <div class="box">
   <div class="box-header with-border">
       <h3 class="box-title">Giảng viên</h3>
@@ -37,7 +35,7 @@
                 <td>{{ l.donViTrucThuoc.tenDonVi }}</td>
                 <td>{{ l.email }}</td>
                 <td>{{ l.soDT }}</td>
-                <td><input readonly type="checkbox" value={{l.huuTri}} ng-check="l.huuTri"/></td>
+                <td><input readonly type="checkbox" [(ngModel)]="l.huuTri" name="huuTri" ng-check="l.huuTri"/></td>
                 <td>{{ l.ghiChu }}</td>
                 <td>                    
                     <a href="#" (click)="showModal(giangvienForm, $event, l.id)"><i class="fa fa-edit text-primary"></i></a>

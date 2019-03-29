@@ -7,6 +7,7 @@ import { LopHocPhanComponent } from './pages/lop-hoc-phan/lop-hoc-phan.component
 import { HocPhanComponent } from './pages/hoc-phan/hoc-phan.component';
 import { LopSinhVienComponent } from './pages/lop-sinh-vien/lop-sinh-vien.component';
 import { DonViComponent } from './pages/don-vi/don-vi.component';
+import { DeThiComponent } from './pages/de-thi/de-thi.component';
 
 const routes: Routes = [
   { path: '', component: LayoutComponent, data: {title: 'Home'},
@@ -17,7 +18,7 @@ const routes: Routes = [
     { path: 'hocphan', component: HocPhanComponent },
     { path: 'lopsinhvien', component: LopSinhVienComponent },
     { path: 'donvi', component: DonViComponent },
-
+    { path: 'dethi', component: DeThiComponent },
   ]
   }
 ];

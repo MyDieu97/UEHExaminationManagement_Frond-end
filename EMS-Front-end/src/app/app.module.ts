@@ -5,6 +5,7 @@ import { ModalModule } from 'ngx-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import { HocPhanComponent } from './pages/hoc-phan/hoc-phan.component';
 import { LopHocPhanComponent } from './pages/lop-hoc-phan/lop-hoc-phan.component';
 import { LopSinhVienComponent } from './pages/lop-sinh-vien/lop-sinh-vien.component';
 import { DonViComponent } from './pages/don-vi/don-vi.component';
+import { DeThiComponent } from './pages/de-thi/de-thi.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { DonViComponent } from './pages/don-vi/don-vi.component';
     HocPhanComponent,
     LopHocPhanComponent,
     LopSinhVienComponent,
-    DonViComponent
+    DonViComponent,
+    DeThiComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import { DonViComponent } from './pages/don-vi/don-vi.component';
     ModalModule.forRoot(),
     HttpClientModule,
     NgbModule,
-    DataTablesModule
+    DataTablesModule,
+    NgxLoadingModule.forRoot({})
   ],
   providers: [],
   bootstrap: [AppComponent]

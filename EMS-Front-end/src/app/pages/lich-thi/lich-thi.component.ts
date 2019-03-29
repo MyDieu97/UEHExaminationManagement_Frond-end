@@ -26,6 +26,8 @@ export class LichThiComponent implements OnInit {
   private alert = new Subject<string>();
   successMessage: string;
 
+  public loading = false;
+
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
@@ -68,26 +70,32 @@ export class LichThiComponent implements OnInit {
   }
 
   loadData() {
+    this.loading = true;
     this.lichthiService.getLichThis().subscribe(result => {
       this.lichthis = result.data;
       console.log(this.lichthis);
       this.rerender();
+      this.loading = false;
     });
   }
 
   showFileModal(form: NgForm) {
+    this.loading = true;
     if (event) {
       event.preventDefault();
     }
     form.reset();    
     this.file = {} as File;
     this.importFileModal.show();
+    this.loading = false;
   }
 
   showDeleteModal(event, id) {
+    this.loading = true;
     this.lichthi.id = id;
     event.preventDefault();
     this.deleteModal.show();
+    this.loading = false;
   }
 
   alertMessage(message) {
@@ -95,12 +103,14 @@ export class LichThiComponent implements OnInit {
   }
 
   importFile() {
+    this.loading = true;
     this.Data = new FormData();
     this.Data.append('File', this.file);
     this.lichthiService.addLichThi(this.Data).subscribe(result => {
       this.importFileModal.hide();
       this.alertMessage(result.message);
       this.loadData();
+      this.loading = false;
     });
   }
 

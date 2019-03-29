@@ -19,6 +19,8 @@ export class DonViComponent implements OnInit {
   private alert = new Subject<string>();
   successMessage: string;
 
+  public loading = false;
+
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
@@ -50,6 +52,7 @@ export class DonViComponent implements OnInit {
   }
 
   showModal(form: NgForm, event = null, id: number = 0) {
+    this.loading = true;
     if (event) {
       event.preventDefault();
     }
@@ -59,36 +62,45 @@ export class DonViComponent implements OnInit {
       this.donviService.getDonVi(id).subscribe(result => {
         this.donvi = result.data;        
         this.modal.show();
+        this.loading = false;
       });
     } else {
       this.donvi = {} as DonVi;
       this.modal.show();
+      this.loading = false;
     }
   }
 
   showDeleteModal(event, id) {
+    this.loading = true;
     this.donvi.id = id;
     event.preventDefault();
     this.deleteModal.show();
+    this.loading = false;
   }
 
   loadData() {
+    this.loading = true;
     this.donviService.getDonVis().subscribe(result => {
       this.donvis = result.data;
       this.rerender();
+      this.loading = false;
     });
   }
 
   save() {
+    this.loading = true;
     if (this.donvi.id === undefined || this.donvi.id === 0) {
       this.donviService.addDonVi(this.donvi).subscribe(aresult => {
         this.modal.hide();
+        this.loading = false;
         this.loadData();
         this.alertMessage(aresult.message);
       });
     } else {
       this.donviService.updateDonVi(this.donvi).subscribe(aresult => {
         this.modal.hide();
+        this.loading = false;
         this.loadData();
         this.alertMessage(aresult.message);
       });
@@ -96,6 +108,7 @@ export class DonViComponent implements OnInit {
   }
 
   delete() {
+    this.loading = true;
     this.donviService.deleteDonVi(this.donvi.id).subscribe(result => {
       if (result.errorCode === 0) {
         const deleteDonVi = this.donvis.find( x => x.id === this.donvi.id);
@@ -104,8 +117,11 @@ export class DonViComponent implements OnInit {
           this.donvis.splice(index, 1);
         }
         this.deleteModal.hide();
+        this.loading = false;
         this.alertMessage(result.message);
-      }
+      }     
+      this.loading = false;
+      this.alertMessage(result.message);
     });
   }
 

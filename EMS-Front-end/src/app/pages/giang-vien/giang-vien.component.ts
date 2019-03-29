@@ -22,6 +22,8 @@ export class GiangVienComponent implements OnInit {
   private alert = new Subject<string>();
   successMessage: string;
 
+  public loading = false;
+
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
@@ -59,6 +61,7 @@ export class GiangVienComponent implements OnInit {
   }
 
   showModal(form: NgForm, event = null, id: number = 0) {
+    this.loading = true;
     if (event) {
       event.preventDefault();
     }
@@ -69,20 +72,25 @@ export class GiangVienComponent implements OnInit {
         this.giangvien = result.data;
         this.giangvien.ngaySinh = this.datetimeService.FormatDateString(this.giangvien.ngaySinh);
         this.modal.show();
+        this.loading = false;
       });
     } else {
       this.giangvien = {} as GiangVien;
       this.modal.show();
+      this.loading = false;
     }
   }
 
   showDeleteModal(event, id) {
+    this.loading = true;
     this.giangvien.id = id;
     event.preventDefault();
     this.deleteModal.show();
+    this.loading = false;
   }
 
   loadData() {
+    this.loading = true;
     this.giangvienService.getGiangViens().subscribe(result => {
       this.giangviens = result.data;
       console.log(this.giangviens);
@@ -91,22 +99,26 @@ export class GiangVienComponent implements OnInit {
   }
 
   save() {
+    this.loading = true;
     if (this.giangvien.id === undefined || this.giangvien.id === 0) {
       this.giangvienService.addGiangVien(this.giangvien).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
+        this.loading = false;
         this.alertMessage(aresult.message);
       });
     } else {
       this.giangvienService.updateGiangVien(this.giangvien).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
+        this.loading = false;
         this.alertMessage(aresult.message);
       });
     }
   }
 
   delete() {
+    this.loading = true;
     this.giangvienService.deleteGiangVien(this.giangvien.id).subscribe(result => {
       if (result.errorCode === 0) {
         const deleteGiangVien = this.giangviens.find( x => x.id === this.giangvien.id);
@@ -117,6 +129,8 @@ export class GiangVienComponent implements OnInit {
         this.deleteModal.hide();
         this.alertMessage(result.message);
       }
+      this.loading = false;
+      this.alertMessage(result.message);
     });
   }
 

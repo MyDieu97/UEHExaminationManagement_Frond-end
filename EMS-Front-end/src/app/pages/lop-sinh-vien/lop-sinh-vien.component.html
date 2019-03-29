@@ -1,7 +1,4 @@
-
-<script src="~/Content/admin-lte/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <!-- /.box -->
-
 <div class="box">
   <div class="box-header with-border">
       <h3 class="box-title">Lớp học phần</h3>
@@ -26,8 +23,7 @@
                 <td>{{ i+1 }}</td>
                 <td>{{ l.maLop }}</td>
                 <td>{{ l.nganhHoc }}</td>
-                <td>{{ l.khoa }}</td>
-                
+                <td>{{ l.khoa }}</td>                
                 <td>                    
                     <a href="#" (click)="showModal(lopsinhvienForm, $event, l.id)"><i class="fa fa-edit text-primary"></i></a>
                     <a href="#" (click)="showDeleteModal($event, l.id)"><i class="fa fa-remove text-danger"></i></a>

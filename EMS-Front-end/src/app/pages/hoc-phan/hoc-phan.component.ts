@@ -21,6 +21,8 @@ export class HocPhanComponent implements OnInit {
   private alert = new Subject<string>();
   successMessage: string;
 
+  public loading = false;
+
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
@@ -56,6 +58,7 @@ export class HocPhanComponent implements OnInit {
   }
 
   showModal(form: NgForm, event = null, id: number = 0) {
+    this.loading = true;
     if (event) {
       event.preventDefault();
     }
@@ -65,44 +68,54 @@ export class HocPhanComponent implements OnInit {
       this.hocphanService.getHocPhan(id).subscribe(result => {
         this.hocphan = result.data;        
         this.modal.show();
+        this.loading = false;
       });
     } else {
       this.hocphan = {} as HocPhan;
       this.modal.show();
+      this.loading = false;
     }
   }
 
   showDeleteModal(event, id) {
+    this.loading = true;
     this.hocphan.id = id;
     event.preventDefault();
     this.deleteModal.show();
+    this.loading = false;
   }
 
   loadData() {
+    this.loading = true;
     this.hocphanService.getHocPhans().subscribe(result => {
       this.hocphans = result.data;
       console.log(this.hocphans);
       this.rerender();
+      this.loading = false;
     });
   }
 
   save() {
+    this.loading = true;
     if (this.hocphan.id === undefined || this.hocphan.id === 0) {
       this.hocphanService.addHocPhan(this.hocphan).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
+        this.loading = false;
         this.alertMessage(aresult.message);
       });
     } else {
       this.hocphanService.updateHocPhan(this.hocphan).subscribe(aresult => {
         this.modal.hide();
         this.loadData();
+        this.loading = false;
         this.alertMessage(aresult.message);
       });
     }
   }
 
   delete() {
+    this.loading = true;
     this.hocphanService.deleteHocPhan(this.hocphan.id).subscribe(result => {
       if (result.errorCode === 0) {
         const deleteHocPhan = this.hocphans.find( x => x.id === this.hocphan.id);
@@ -111,8 +124,11 @@ export class HocPhanComponent implements OnInit {
           this.hocphans.splice(index, 1);
         }
         this.deleteModal.hide();
+        this.loading = false;
         this.alertMessage(result.message);
       }
+      this.loading = false;
+      this.alertMessage(result.message);
     });
   }
 
