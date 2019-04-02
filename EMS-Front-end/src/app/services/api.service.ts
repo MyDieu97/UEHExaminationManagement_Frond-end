@@ -7,7 +7,7 @@ export class ApiService {
 
   constructor() { }
 
-  baseUrl = 'https://localhost:44336/api/';
+  baseUrl = 'https://ems-back.azurewebsites.net/api/';
   apiUrl = {
     giangvien: this.baseUrl + 'giangviens',
     donvi: this.baseUrl + 'donvis',

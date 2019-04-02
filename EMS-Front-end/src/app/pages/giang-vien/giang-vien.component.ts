@@ -95,6 +95,7 @@ export class GiangVienComponent implements OnInit {
       this.giangviens = result.data;
       console.log(this.giangviens);
       this.rerender();
+      this.loading = false;
     });
   }
 

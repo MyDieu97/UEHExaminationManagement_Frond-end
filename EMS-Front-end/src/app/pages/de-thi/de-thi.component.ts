@@ -65,6 +65,9 @@ export class DeThiComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
+  // tslint:disable-next-line: use-life-cycle-interface
+  ngAfterViewInit(): void {this.dtTrigger.next(); }
+
   showModal(form: NgForm, event = null, id: number = 0) {
     this.loading = true;
     if (event) {
@@ -96,8 +99,9 @@ export class DeThiComponent implements OnInit {
     });
   }
 
-  // tslint:disable-next-line: use-life-cycle-interface
-  ngAfterViewInit(): void {this.dtTrigger.next(); }
+  download() {
+
+  }
 
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -110,13 +114,14 @@ export class DeThiComponent implements OnInit {
     this.alert.next(message);
   }
 
-  // downloadExcelFile(data: Blob) { 
-  //   // const contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; 
-  //   // const blob = new Blob([data], { type: contentType });
-  //   const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });    
-  //   const url = window.URL.createObjectURL(blob);
-  //   window.open(url);
-  // }
+  downloadExcelFile(data: Blob) { 
+    const contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; 
+    const blob = new Blob([data], { type: contentType });  
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
+    // saveAs(blob, "Data.xlsx");
+    // console.log(blob);
+  }
 
   // downloadFile (file_name, content) {
   // var csvData = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });

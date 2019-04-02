@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/f9da0135-c0ac-421f-a2c2-100d00e6055c/resourceGroups/ems-front/providers/Microsoft.Web/sites/ems-front",
+    "appService.deploySubpath": "dist\\EMS-Front-end"
+}
