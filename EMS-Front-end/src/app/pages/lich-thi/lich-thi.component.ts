@@ -17,8 +17,7 @@ export class LichThiComponent implements OnInit {
 
   lichthis: LichThiInfo[] = [];
   lichthi: LichThi = {} as LichThi;
-  hocPhan: HocPhan = {} as HocPhan;
-  
+  hocPhan: HocPhan = {} as HocPhan;  
   
   Data: FormData = {} as FormData;
   file: File = {} as File;

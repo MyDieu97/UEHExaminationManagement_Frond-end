@@ -38,7 +38,18 @@
     <!-- Optionally, you can add icons to the links -->
     
     <li class="active"><a [routerLink]="['/lichthi']"><i class="fa fa-calendar"></i><span>Lịch thi</span></a></li>
-    <li class="active"><a [routerLink]="['/dethi']"><i class="fa fa-file-text"></i><span>Đề thi</span></a></li>
+    <li class="treeview menu-open">
+      <a href="#">
+        <i class="fa fa-file-text"></i> <span>Đề thi</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu" style="display: block;">
+          <li><a [routerLink]="['/dethi']"><i class="fa fa-circle-o"></i>Gửi mail</a></li>
+          <li><a [routerLink]="['/duyetdethi']"><i class="fa fa-circle-o"></i>In biên bản</a></li>
+      </ul>
+    </li>
     <li class="active"><a [routerLink]="['/giangvien']"><i class="fa fa-user"></i><span>Giảng viên</span></a></li>
     <li class="active"><a [routerLink]="['/hocphan']"><i class="fa fa-book"></i> <span>Học phần</span></a></li>
     <li class="active"><a [routerLink]="['/lophocphan']"><i class="fa fa-graduation-cap"></i><span>Lớp học phần</span></a></li>

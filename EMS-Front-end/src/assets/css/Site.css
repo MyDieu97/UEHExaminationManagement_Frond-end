@@ -22,3 +22,7 @@ textarea {
 .ng-invalid:not(form)  {
     border-left: 5px solid #a94442;
 }
+
+.fa {
+    padding-right: 5px!important;
+}

@@ -1,0 +1,108 @@
+<!-- /.box -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="box">
+  <div class="box-header with-border">
+      <h3 class="box-title">Đề thi</h3>
+      <div class="pull-right">
+        <button type="button" class="btn bg-green" (click)="showModal(dethiForm)"><i class="fa fa-list"></i><span>Lấy danh sách</span></button> 
+        <button type="button" class="btn bg-blue" (click)="downloadFile()"><i class="fa fa-download"></i><span>Xuất file</span></button>
+      </div>
+  </div>
+  <div class="box-body">
+        <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+            <thead>
+                <tr>
+                  <th><p>#</p></th>
+                  <th><p>Lớp HP</p></th>
+                  <th><p>Tên HP</p></th>
+                  <th><p>Số TC</p></th>
+                  <th><p>Bậc ĐT</p></th>
+                  <th><p>Ngành học</p></th>
+                  <th><p>Hệ ĐT</p></th>
+                  <th><p>Khóa học</p></th>
+                  <th><p>Lớp SV</p></th>
+                  <th><p>SV thi</p></th>
+                  <th><p>Ngày thi</p></th>
+                  <th><p>Giờ thi</p></th>
+                  <th><p>CS Thi</p></th>
+                </tr>
+          </thead>
+          
+          <tbody>
+            <tr *ngFor="let l of dethis; let i=index">
+              <td>{{ i+1 }}</td>
+              <td>{{ l.maLopHP }}</td>
+              <td>{{ l.tenHP }}</td>
+              <td>{{ l.soTinChi }}</td>
+              <td>{{ l.bacDaoTao }}</td>
+              <td>{{ l.nganhHoc }}</td>
+              <td>{{ l.heDaoTao }}</td>
+              <td>{{ l.khoa }}</td>
+              <td>{{ l.maLopSV }}</td>
+              <td>{{ l.soSV }}</td>
+              <td>{{ l.ngayGioBDThi | date : 'dd-MM-yyyy'}}</td>
+              <td>{{ l.ngayGioBDThi | date : 'HH:mm' }}</td>
+              <td>{{ l.csThi }}</td>
+            </tr>             
+          </tbody>                   
+      </table>      
+    </div>
+</div>
+
+<div bsModal #modal="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>                
+                <h4 class="modal-title"></h4>                
+            </div>
+            <div class="modal-body">
+                <form #dethiForm="ngForm">
+                    <div class="box-body">                        
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">                              
+                                <div class="row">
+                                    <div class="form-group col-sm-12 col-md-12">
+                                        <label for="dtpNgayBatDau" class="col-sm-2 col-md-3 col control-p">Từ ngày</label>
+                
+                                        <div class="col-sm-10 col-md-9">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input required type="date" class="form-control pull-left" id="dtpNgayBatDau" style="width:242px" [(ngModel)]="request.ngayBatDau" name="ngayBatDau">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                                 
+                            </div>
+
+                            <div class="col-sm-12 col-md-6">
+                                <div class="row">
+                                  <div class="form-group col-sm-12 col-md-12">
+                                    <label for="dtpNgayKetThuc" class="col-sm-2 col-md-3 col control-p">Đến ngày</label>
+            
+                                    <div class="col-sm-10 col-md-9">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input required type="date" class="form-control pull-left" id="dtpNgayKetThuc" style="width:242px" [(ngModel)]="request.ngayKetThuc" name="ngayKetThuc">
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">                
+                <button type="submit" class="btn btn-success" id="btnSave" (click)="getDeThis()" [disabled]="!dethiForm.form.valid">OK</button>                   
+            </div>
+        </div>
+    </div>
+</div>

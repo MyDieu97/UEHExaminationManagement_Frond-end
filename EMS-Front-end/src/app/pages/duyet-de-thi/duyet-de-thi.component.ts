@@ -1,24 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DeThiService, DeThiInfo, DeThisRequest } from 'src/app/services/de-thi/de-thi.service';
+import { DatetimeService } from 'src/app/services/datetime.service';
 import { DonVi, DonViService } from 'src/app/services/don-vi/don-vi.service';
 import { GiangVienInfo, GiangVienService } from 'src/app/services/giang-vien/giang-vien.service';
+import { DeThiInfo, DeThisRequest, DeThiService } from 'src/app/services/de-thi/de-thi.service';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { ModalDirective } from 'ngx-bootstrap';
 import { debounceTime } from 'rxjs/operators';
-import { NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';import { saveAs } from 'file-saver';
+import { LichThiInfo } from 'src/app/services/lich-thi/lich-thi.service';
 
 @Component({
-  selector: 'app-de-thi',
-  templateUrl: './de-thi.component.html',
-  styleUrls: ['./de-thi.component.css']
+  selector: 'app-duyet-de-thi',
+  templateUrl: './duyet-de-thi.component.html',
+  styleUrls: ['./duyet-de-thi.component.css']
 })
-export class DeThiComponent implements OnInit {
+export class DuyetDeThiComponent implements OnInit {
 
   donvis: DonVi[] = [];
-  giangviens: GiangVienInfo[] = [];
-  dethis: DeThiInfo[] = [];
-  giangvienId: number = 0;
+  dethis: LichThiInfo[] = [];
   request: DeThisRequest = {} as DeThisRequest;
 
   private alert = new Subject<string>();
@@ -32,7 +32,7 @@ export class DeThiComponent implements OnInit {
 
   @ViewChild('modal') modal: ModalDirective;
 
-  constructor(public giangvienService: GiangVienService, public donviService: DonViService, private dethiService: DeThiService) { }
+  constructor(public giangvienService: GiangVienService, public donviService: DonViService, private dethiService: DeThiService, public datetimeService: DatetimeService) { }
 
   ngOnInit() {
     this.alert.subscribe((message) => this.successMessage = message);
@@ -50,11 +50,8 @@ export class DeThiComponent implements OnInit {
       console.log(result.data);
     });
 
-    this.giangvienService.getGiangViens().subscribe(result => {
-      this.giangviens = result.data;
-      console.log(result.data);
-    });
-    
+    // this.getDeThis();
+
     this.rerender();
   }
 
@@ -74,28 +71,19 @@ export class DeThiComponent implements OnInit {
     }
     form.reset();
       this.request = {} as DeThisRequest;
-      this.giangvienId = 0;
       this.modal.show();
       this.loading = false;
   }
 
-  getDeThisbyDonVi() {
+  getDeThis() {
     this.loading = true;
-    this.dethiService.getDeThisbyDonVi(this.request).subscribe(result => {
+    this.dethiService.getDeThis(this.request).subscribe(result => {
       this.modal.hide();
       this.dethis = result.data;
       this.rerender();
       this.loading = false;
       this.alertMessage(result.message);
     });
-  }
-  
-  sendMail() {
-    this.loading = true;
-    this.dethiService.sendMail(this.request, this.giangvienId).subscribe(result => {
-      this.loading = false;
-      this.alertMessage(result.message);
-    });    
   }
 
   rerender(): void {
@@ -109,18 +97,17 @@ export class DeThiComponent implements OnInit {
     this.alert.next(message);
   }
 
-  // downloadFile() {
-  //   this.loading = true;
-  //   this.dethiService.getFile(this.request).subscribe(result => {
-  //     this.downloadExcelFile(result);
-  //     this.loading = false;
-  //   });
-  // }
+  downloadFile() {
+    this.loading = true;
+    this.dethiService.getFile(this.request).subscribe(result => {
+      this.downloadExcelFile(result);
+      this.loading = false;
+    });
+  }
 
-  // downloadExcelFile(data: Blob) { 
-  //   const contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; 
-  //   const fileName = "BienBanDuyetDeThi" + this.datetimeService.FormatDateString(this.request.ngayBatDau) + "_" + this.datetimeService.FormatDateString(this.request.ngayKetThuc);
-  //   saveAs(data, fileName, { type: contentType });
-  // }
-
+  downloadExcelFile(data: Blob) { 
+    const contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; 
+    const fileName = "BienBanDuyetDeThi" + this.datetimeService.FormatDateString(this.request.ngayBatDau) + "_" + this.datetimeService.FormatDateString(this.request.ngayKetThuc);
+    saveAs(data, fileName, { type: contentType });
+  }
 }

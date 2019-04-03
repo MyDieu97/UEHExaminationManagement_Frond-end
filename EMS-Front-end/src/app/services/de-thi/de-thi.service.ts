@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from '../api.service';
 import { Observable } from 'rxjs';
+import { LichThiInfoResponse } from '../lich-thi/lich-thi.service';
 
 export interface DeThiInfosResponse {
   errorCode: number;
@@ -36,11 +37,19 @@ export class DeThiService {
 
   constructor(private http: HttpClient, private apiService: ApiService) { }
 
-  getDeThis(request: DeThisRequest): Observable<DeThiInfosResponse> {
-    return this.http.post<DeThiInfosResponse>(this.apiService.apiUrl.dethi, request);
+  getDeThisbyDonVi(request: DeThisRequest): Observable<DeThiInfosResponse> {
+    return this.http.post<DeThiInfosResponse>(this.apiService.apiUrl.dethi + "/getdethisbydonvi", request);
+  }
+
+  getDeThis(request: DeThisRequest): Observable<LichThiInfoResponse> {
+    return this.http.post<LichThiInfoResponse>(this.apiService.apiUrl.dethi + "/getdethis", request);
   }
 
   sendMail(request, giangvienId): Observable<DeThiInfosResponse> {
     return this.http.post<DeThiInfosResponse>(this.apiService.apiUrl.dethi + '/sendemail/' + giangvienId, request);
+  }
+
+  getFile(request): Observable<Blob> {
+    return this.http.post(this.apiService.apiUrl.dethi + '/downloadfile', request, { responseType: 'blob' });
   }
 }
