@@ -21,7 +21,7 @@ export interface DeThiInfo {
 export interface DeThisRequest {
   ngayBatDau: Date;
   ngayKetThuc: Date;
-  DonViId: number;
+  donViId: number;
 }
 
 @Injectable({

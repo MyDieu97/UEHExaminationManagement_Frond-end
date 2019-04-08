@@ -19,7 +19,7 @@ export class DuyetDeThiComponent implements OnInit {
 
   donvis: DonVi[] = [];
   dethis: LichThiInfo[] = [];
-  request: DeThisRequest = {} as DeThisRequest;
+  request: DeThisRequest = { donViId: 0 } as DeThisRequest;
 
   private alert = new Subject<string>();
   successMessage: string;

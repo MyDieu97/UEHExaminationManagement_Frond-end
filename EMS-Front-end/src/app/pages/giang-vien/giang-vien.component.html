@@ -24,7 +24,6 @@
                     </th>                    
                 </tr>
           </thead>
-          
           <tbody>
             <tr *ngFor="let l of giangviens; let i=index">
                 <td>{{ i+1 }}</td>
@@ -35,7 +34,7 @@
                 <td>{{ l.donViTrucThuoc.tenDonVi }}</td>
                 <td>{{ l.email }}</td>
                 <td>{{ l.soDT }}</td>
-                <td><input readonly type="checkbox" [(ngModel)]="l.huuTri" name="huuTri" ng-check="l.huuTri"/></td>
+                <td><i *ngIf="l.huuTri" class="fa fa-check" aria-hidden="true"></i></td>
                 <td>{{ l.ghiChu }}</td>
                 <td>                    
                     <a href="#" (click)="showModal(giangvienForm, $event, l.id)"><i class="fa fa-edit text-primary"></i></a>

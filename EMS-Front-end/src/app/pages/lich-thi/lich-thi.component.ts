@@ -7,6 +7,7 @@ import { debounceTime } from 'rxjs/operators';
 import { ModalDirective } from 'ngx-bootstrap';
 import { NgForm } from '@angular/forms';
 import { HocPhan } from 'src/app/services/hoc-phan/hoc-phan.service';
+import { LopHocPhan, LopHocPhanService, LopHocPhanInfo } from 'src/app/services/lop-hoc-phan/lop-hoc-phan.service';
 
 @Component({
   selector: 'app-lich-thi',
@@ -17,7 +18,7 @@ export class LichThiComponent implements OnInit {
 
   lichthis: LichThiInfo[] = [];
   lichthi: LichThi = {} as LichThi;
-  hocPhan: HocPhan = {} as HocPhan;  
+  lopHPs: LopHocPhanInfo[] = [];  
   
   Data: FormData = {} as FormData;
   file: File = {} as File;
@@ -32,9 +33,10 @@ export class LichThiComponent implements OnInit {
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
 
   @ViewChild('importFileModal') importFileModal: ModalDirective;
+  @ViewChild('modal') modal: ModalDirective;
   @ViewChild('deleteModal') deleteModal: ModalDirective;
 
-  constructor(public datetimeService: DatetimeService, public lichthiService: LichThiService) { }
+  constructor(public datetimeService: DatetimeService, public lichthiService: LichThiService, public lophocphanService: LopHocPhanService) { }
 
   ngOnInit() {
     this.alert.subscribe((message) => this.successMessage = message);
@@ -48,6 +50,10 @@ export class LichThiComponent implements OnInit {
       scrollX: true,
       autoWidth: true
     };
+
+    this.lophocphanService.getLopHocPhans().subscribe(result => {
+      this.lopHPs = result.data;
+    });
 
     this.loadData();
   }
@@ -87,6 +93,30 @@ export class LichThiComponent implements OnInit {
     this.file = {} as File;
     this.importFileModal.show();
     this.loading = false;
+  }
+
+  showModal(form: NgForm, event = null, id: number = 0) {
+    this.loading = true;
+    if (event) {
+      event.preventDefault();
+    }
+    form.reset();
+
+    this.lichthiService.getLichThi(id).subscribe(result => {
+      this.lichthi = result.data;
+      this.modal.show();
+      this.loading = false;
+    })
+  }
+
+  save() {
+    this.loading = true;    
+    this.lichthiService.updateLichThi(this.lichthi).subscribe(aresult => {
+      this.modal.hide();
+      this.loadData();
+      this.loading = false;
+      this.alertMessage(aresult.message);
+    });
   }
 
   showDeleteModal(event, id) {
